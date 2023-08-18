@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 import Filter from './Filter/Filter';
 import PropTypes from 'prop-types';
 
-export default class App extends Component {
+export class App extends Component {
   state = {
     contacts: [],
     filter: '',
