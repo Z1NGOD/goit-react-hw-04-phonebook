@@ -1,15 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types'
+import { useContext } from 'react';
 import { ContactsList, ContactItem } from './Contacts.styled';
 import { Btn } from 'ui/Btn.styled';
-const Contacts = ({ contacts, deleteContact }) => {
+import { Context } from 'components/Context/StateContext';
+const Contacts = () => {
+  const { contacts, setContacts, filter } = useContext(Context);
+
+  const deleteContact = id => {
+    setContacts(prevState => prevState.filter(contact => contact.id !== id));
+  };
+  const getFilteredContacts = () => {
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter)
+    );
+  };
+  const filteredContacts = getFilteredContacts();
   return (
     <ContactsList>
-      {contacts !== null ? (
-        contacts.map(({ id, name, number }) => (
+      {filteredContacts.length > 0 ? (
+        filteredContacts.map(({ id, name, number }) => (
           <ContactItem key={id}>
-                {name}: {number}
-                <Btn onClick={() => deleteContact(id)}>Delete</Btn>
+            {name}: {number}
+            <Btn onClick={() => deleteContact(id)}>Delete</Btn>
           </ContactItem>
         ))
       ) : (
@@ -17,16 +28,6 @@ const Contacts = ({ contacts, deleteContact }) => {
       )}
     </ContactsList>
   );
-};
-
-Contacts.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
 };
 
 export default Contacts;

@@ -1,14 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useContext} from 'react';
 import { Btn } from 'ui/Btn.styled';
 import { MainText, Input, Form } from './Phonebook.styled';
+import { Context } from 'components/Context/StateContext';
 
-export default function PhoneBook({
-  name,
-  number,
-  handleSubmit,
-  handleChange,
-}) {
+export default function PhoneBook() {
+  const { handleSubmit, handleChange, name, number } = useContext(Context);
+
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -19,8 +16,9 @@ export default function PhoneBook({
           pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
-          defaultValue={name}
+          value={name}
           onChange={handleChange}
+          placeholder='Name'
         />
         <MainText>Number</MainText>
         <Input
@@ -29,8 +27,9 @@ export default function PhoneBook({
           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses, and can start with +"
           required
-          defaultValue={number}
+          value={number}
           onChange={handleChange}
+          placeholder='000-000-0000'
         />
         <Btn type="submit">Add contact</Btn>
       </Form>
@@ -38,9 +37,3 @@ export default function PhoneBook({
   );
 }
 
-PhoneBook.propTypes = {
-  name: PropTypes.string,
-  number: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-};
