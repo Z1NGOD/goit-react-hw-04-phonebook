@@ -11,7 +11,7 @@ export function App() {
   useEffect(() => {
     const contactsFromLS = JSON.parse(localStorage.getItem('contacts')) || [];
     setContacts(contactsFromLS);
-  }, []);
+  }, [setContacts]);
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
